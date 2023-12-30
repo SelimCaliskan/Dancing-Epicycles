@@ -8,7 +8,8 @@ As messy as the code is, this project is my first experience with almost everyth
 in the project: CMake, Raylib, and of course Mr. Fouriér :)
 
 You can automatically build-and-run my project by simply running the so-called .bat file
-(If you have CMake installed on your computer, of course.)
+(If you have CMake installed on your computer, of course. If you dont, just use the .exe file
+in the Release folder.)
 
 
 Enjoy the bilateral randomness of my pendulum, or give it something to draw!
