@@ -179,8 +179,6 @@ int main(void)
                 drawing_index++;
 
             }
-
-            DrawTrail(head, true);
             
         }
         
@@ -251,11 +249,13 @@ int main(void)
 
                 SimulateFrame(head, time_taken);
             
-                DrawTrail(head, toggleTrail);
                 DrawLines(head);
                 DrawCircles(head, state);
 
             }
+			
+			DrawTrail(head, toggleTrail);
+			
 
         EndDrawing();
         //----------------------------------------------------------------------------------
