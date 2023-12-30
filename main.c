@@ -115,7 +115,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
 
-        srand(((int)(time_taken * 1000)) % INT_MAX);
+        srand(((int)(time_taken * 10000)) % INT_MAX);
 
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
             toggleTrail = true;
@@ -137,7 +137,7 @@ int main(void)
             head->data.color = colors[rand()%4];
             
             for(int i = 1; i < drawing_index; i++){
-
+				srand(((int)(time_taken * 10000 + i)) % INT_MAX);
                 float radius = path[i].amp;
                 int w = path[i].freq;
                 float rodLength = path[i].amp;
@@ -184,6 +184,11 @@ int main(void)
         else if(IsKeyPressed(KEY_ENTER)){
 
             int w = rand() % 13 - 6;
+			if(w == 0)
+				if(rand()%2)
+                    w = 1;
+                else
+                    w = -1;
             Color color = colors[rand() % 4];
             float rodLength = (float)(rand() % 50 + 40);
             float radius = (float)(rand() % 15) + 8.f;
