@@ -8,6 +8,7 @@
 #define DEFAULT_WIDTH 1200
 #define DEFAULT_HEIGHT 800
 #define MAX_TRAIL_LENGTH 100000
+#define TARGET_FPS 120
 
 struct Circle{
     int X;
@@ -96,7 +97,7 @@ int main(void)
     SetWindowSize(WIDTH, HEIGHT);
     SetWindowPosition(MONITOR_WIDTH/2 - DEFAULT_WIDTH/2, MONITOR_HEIGHT/2 - DEFAULT_HEIGHT/2);
 
-    SetTargetFPS(60);               // Set our pendulum to run at 60 frames-per-second
+    SetTargetFPS(TARGET_FPS);               // Set our pendulum to run at 120 frames-per-second
 
     Node head = CreateNode(); //initialize the first (rigid) node of the pendulum
     head->data = (struct Circle){WIDTH/2, HEIGHT/2, 5.f, 5, GRAY, 50.f, 0.f};
@@ -265,7 +266,7 @@ int main(void)
             dt = 2 * PI / drawing_index;
 
         if(state == USER)
-            dt = 0.0166f;
+            dt = (1000.f / TARGET_FPS) / 1000.f;
 
         if(time_taken >= 2*PI){
             
