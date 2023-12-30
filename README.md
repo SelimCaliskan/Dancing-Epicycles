@@ -12,4 +12,4 @@ You can automatically build-and-run my project by simply running the so-called .
 in the Release folder.)
 
 
-Enjoy the bilateral randomness of my pendulum, or give it something to draw!
+Enjoy the bilateral randomness of my pendulum, or give it something to draw with your mouse!
