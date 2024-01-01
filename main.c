@@ -76,6 +76,8 @@ void Fourier_Transform();
 
 int amp_comparator(const void *v1, const void *v2);
 
+int GetNumberOfCircles(Node head);
+
 
 int main(void)
 {
@@ -159,7 +161,8 @@ int main(void)
             int y = GetMouseY();
 
             if(trail_index == 0){
-
+                
+                ImSorryIHadTo:
                 trail[trail_index][0] = x;
                 trail[trail_index][1] = y;
                 drawing[drawing_index].re = (float)(x - head->data.X);
@@ -170,12 +173,7 @@ int main(void)
             }
             else if( !((trail[trail_index - 1][0] == x) && (trail[trail_index - 1][1] == y)) ){
 
-                trail[trail_index][0] = x;
-                trail[trail_index][1] = y;
-                drawing[drawing_index].re = (float)(x - head->data.X);
-                drawing[drawing_index].im = (float)(head->data.Y - y);
-                trail_index++;
-                drawing_index++;
+                goto ImSorryIHadTo;
 
             }
             
@@ -183,17 +181,16 @@ int main(void)
         
         else if(IsKeyPressed(KEY_ENTER)){
 
-            int w = rand() % 13 - 6;
-			if(w == 0)
-				if(rand()%2)
-                    w = 1;
-                else
-                    w = -1;
+            int w = (rand() % 15) - 7;
             Color color = colors[rand() % 4];
             float rodLength = (float)(rand() % 50 + 40);
             float radius = (float)(rand() % 15) + 8.f;
             float phase = (float)(rand() % 2 * PI);
-            AddCircle(head, radius, w, color, rodLength, phase);
+
+            AddCircle(head, radius, w, color, rodLength, phase);  
+            
+            printf("Circle added: r: %f, w: %d, color: rgb(%d, %d, %d), rod: %f, phase: %f\n", radius, w, color.r, color.g, color.b, rodLength, phase);
+            
             trail_index = 0;
             state = USER;
 
@@ -248,6 +245,17 @@ int main(void)
             DrawText("[SPACE] - Toggle trail", 10, 10 + 25*4, 20, WHITE);
             DrawText("[F11] - Toggle fullscreen", 10, 10 + 25*5, 20, WHITE);
             DrawText("[ESC] - Exit the program", 10, 10 + 25*6, 20, WHITE);
+
+            int circNum = GetNumberOfCircles(head);
+
+            if(circNum == 1)
+                DrawText("1 circle is standing in solitude", 10, HEIGHT - 30, 20, WHITE);
+            else{
+                char* text = malloc(30 * sizeof(char));
+                sprintf(text, "%d circles are dancing now", circNum);
+                const char* Text = text;
+                DrawText(Text, 10, HEIGHT - 30, 20, WHITE);
+            }
 
             if(!IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
 
@@ -438,4 +446,13 @@ int amp_comparator(const void *v1, const void *v2)
         return +1;
     else
         return 0;
+}
+
+int GetNumberOfCircles(Node head){
+    int n = 0;
+    Node p = head;
+
+    while(p != NULL){p = p->next; n++;}
+
+    return n;
 }
