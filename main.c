@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "include/raylib.h"
-#include "include/raygui.h"
 #define TITLE "The Milky Way"
 #define DEFAULT_WIDTH 1200
 #define DEFAULT_HEIGHT 800
@@ -275,8 +274,8 @@ int main(void)
         float dt;
 
         if(state == FOURIER)
-            dt = 2 * PI / drawing_index;
-
+            dt = 2 * PI / (circNum - 1);
+		
         if(state == USER)
             dt = (1000.f / TARGET_FPS) / 1000.f;
 
