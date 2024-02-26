@@ -43,15 +43,28 @@ enum State{
     FOURIER = 1
 };
 
+
 struct Complex drawing[MAX_TRAIL_LENGTH];
 struct Epicycle path[MAX_TRAIL_LENGTH];
 int drawing_index = 0;
 int trail[MAX_TRAIL_LENGTH][2];
 int trail_index = 0;
 enum State state = USER;
-
-
+//mert part
+double delTime;
+double delLast;
+float delSpeed = 1.0f;
+float delincrease = 0;
+int framescounter = 0;
+char Iwrite[10];
+int charCount = 0;
+int helpFlag = 0;
+const char* allText;
+flag=1;
+//
 Node CreateNode();
+
+void drawmyqol();//someofmertali
 
 void AddCircle(Node head, float radius, int w, Color color, float rodLength, float phase);
 
@@ -98,13 +111,14 @@ int main(void)
     SetWindowPosition(MONITOR_WIDTH/2 - DEFAULT_WIDTH/2, MONITOR_HEIGHT/2 - DEFAULT_HEIGHT/2);
 
     SetTargetFPS(TARGET_FPS);               // Set our pendulum to run at 120 frames-per-second
-
+    Rectangle textBox = { 10 ,10, 20, 50 };
+    
     Node head = CreateNode(); //initialize the first (rigid) node of the pendulum
     head->data = (struct Circle){WIDTH/2, HEIGHT/2, 5.f, 5, GRAY, 50.f, 0.f};
 
     float time_taken = 0;
     bool toggleTrail = true;
-
+    
     Color colors[4] = {RED, BLUE, GREEN, VIOLET};
 
     //--------------------------------------------------------------------------------------
@@ -115,7 +129,7 @@ int main(void)
         // Update
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
-
+        
         srand(((int)(time_taken * 10000)) % INT_MAX);
 
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
@@ -194,10 +208,33 @@ int main(void)
             state = USER;
 
         }
-        else if(IsKeyPressed(KEY_BACKSPACE)){
-            RemoveCircle(head);
-            trail_index = 0;
-            state = USER;
+
+        else if(IsKeyDown(KEY_BACKSPACE)){
+
+            if(GetTime()-delLast>delSpeed)
+            {
+                RemoveCircle(head);
+                delLast=GetTime();
+                delincrease+=0.03f;
+                if(delSpeed<0)
+                {
+                    delSpeed=0.03f;
+                }
+                else
+                {
+                    delSpeed=delSpeed-(0.02f+delincrease); 
+                }
+                
+                trail_index = 0;
+                state = USER;
+            }
+
+
+
+        }
+        else if(!IsKeyDown(KEY_BACKSPACE)){
+            delSpeed=1.0f;
+            delincrease=0;
         }
         else if(IsKeyPressed(KEY_R)){
             RemoveAllCircles(head);
@@ -227,7 +264,26 @@ int main(void)
             head->data.Y = HEIGHT/2;
             trail_index = 0;
         }
+        //Help menu start
+        for (int key = KEY_A; key <= KEY_Z; key++)
+        {
+            if(IsKeyPressed(key))
+            {
 
+                printf("%c\n",(char)key);
+                Iwrite[charCount]=(char)key;
+                charCount++;
+                flag=0;
+            }
+            
+        }
+        if(IsKeyPressed(KEY_NINE))
+        {
+            memset(Iwrite,'\n',sizeof(Iwrite));
+            charCount=0;
+            flag=1;
+        }
+        framescounter++;
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -237,16 +293,55 @@ int main(void)
 
             ClearBackground(BLACK);
 
-            DrawText("[LEFT MOUSE BUTTON] - Hold & drag to draw your own!", 10, 10, 20, WHITE);
-            DrawText("[ENTER] - Add a random circle", 10, 10 + 25, 20, WHITE);
-            DrawText("[BACKSPACE] - Remove the last circle", 10, 10 + 25*2, 20, WHITE);
-            DrawText("[R] - Remove all circles", 10, 10 + 25*3, 20, WHITE);
-            DrawText("[SPACE] - Toggle trail", 10, 10 + 25*4, 20, WHITE);
-            DrawText("[F11] - Toggle fullscreen", 10, 10 + 25*5, 20, WHITE);
-            DrawText("[ESC] - Exit the program", 10, 10 + 25*6, 20, WHITE);
 
+            
+            //Help menu
+            if(flag==1)
+            {
+                allText = 
+                "You can Write:\n"
+                "HELP\n"
+                "AUTHOR\n"
+                "[9] - Delete Text\n";
+                drawmyqol();
+                
+            }
+            DrawText(Iwrite, (int)textBox.x + 5, (int)textBox.y + 8, 40, GREEN);
+            //if (((framescounter/20)%2) == 0) DrawText("_", (int)textBox.x + 8 + MeasureText(Iwrite, 40), (int)textBox.y + 12, 40, WHITE);
+            if(strncmp(Iwrite,"HELP",4) == 0)
+            {
+                allText = 
+                "[LEFT MOUSE BUTTON] - Hold & drag to draw your own!\n"
+                "[ENTER] - Add a random circle\n"
+                "[BACKSPACE] - Remove the last circle\n"
+                "[R] - Remove all circles\n"
+                "[SPACE] - Toggle trail\n"
+                "[F11] - Toggle fullscreen\n"
+                
+                "[ESC] - Exit the program";
+                drawmyqol();
+
+                /*
+                DrawText(TextSubtext("[LEFT MOUSE BUTTON] - Hold & drag to draw your own!", 0, (framescounter/10)), 10, 10, 20, WHITE);
+                DrawText(TextSubtext("[ENTER] - Add a random circle", 0, (framescounter/10)), 10, 10 + 25, 20, WHITE);
+                DrawText(TextSubtext("[BACKSPACE] - Remove the last circle", 0, (framescounter/10)), 10, 10 + 25*2, 20, WHITE);
+                DrawText(TextSubtext("[R] - Remove all circles", 0, (framescounter/10)), 10, 10 + 25*3, 20, WHITE);
+                DrawText(TextSubtext("[SPACE] - Toggle trail", 0, (framescounter/10)), 10, 10 + 25*4, 20, WHITE);
+                DrawText(TextSubtext("[F11] - Toggle fullscreen", 0, (framescounter/10)), 10, 10 + 25*5, 20, WHITE);
+                DrawText(TextSubtext("[ESC] - Exit the program", 0, (framescounter/10)), 10, 10 + 25*6, 20, WHITE);
+                */
+
+            }
+            else if(strncmp(Iwrite,"AUTHOR",6) == 0)
+            {
+                allText = 
+                "Selim Caliskan did so many thing\n"
+                "Mert add somethings";
+                drawmyqol();
+            }
+            ////End of Mert aliPart
             int circNum = GetNumberOfCircles(head);
-
+            
             if(circNum == 1)
                 DrawText("1 circle is standing in solitude", 10, HEIGHT - 30, 20, WHITE);
             else{
@@ -307,6 +402,13 @@ Node CreateNode(){
     temp->prev = NULL;// make previous point to NULL
     return temp;//return the new node
 }
+//some mertalithings
+void drawmyqol()
+{
+    DrawText(TextSubtext(allText,0,framescounter/5),10, 80, 20, GREEN);
+}
+
+//////////////endofthisshit
 
 void AddCircle(Node head, float radius, int w, Color color, float rodLength, float phase){
     Node p = head;
@@ -455,3 +557,5 @@ int GetNumberOfCircles(Node head){
 
     return n;
 }
+
+

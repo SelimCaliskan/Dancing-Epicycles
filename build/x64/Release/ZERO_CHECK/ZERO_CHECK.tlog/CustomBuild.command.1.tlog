@@ -1,0 +1,10 @@
+^C:\USERS\SENOL\ONEDRIVE\BELGELER\GITHUB\DANCING-EPICYCLES\BUILD\CMAKEFILES\B9868FF0C64EC7F8CB563D692D3ABC32\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/senol/OneDrive/Belgeler/GitHub/Dancing-Epicycles -BC:/Users/senol/OneDrive/Belgeler/GitHub/Dancing-Epicycles/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/senol/OneDrive/Belgeler/GitHub/Dancing-Epicycles/build/dancing_circles.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

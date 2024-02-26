@@ -1,0 +1,3 @@
+C:/Users/senol/OneDrive/Belgeler/GitHub/Dancing-Epicycles/build/CMakeFiles/dancing_circles.dir
+C:/Users/senol/OneDrive/Belgeler/GitHub/Dancing-Epicycles/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/senol/OneDrive/Belgeler/GitHub/Dancing-Epicycles/build/CMakeFiles/ZERO_CHECK.dir

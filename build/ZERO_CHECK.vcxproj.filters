@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\senol\OneDrive\Belgeler\GitHub\Dancing-Epicycles\build\CMakeFiles\b9868ff0c64ec7f8cb563d692d3abc32\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{8FDFF598-0D19-3301-AEA9-B82028D0C571}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
